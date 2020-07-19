@@ -28,22 +28,12 @@ func main() {
 		infoLog: infoLog,
 	}
 
-	// Initialize a new servemux, and register the home function as the handler
-	// Make sure to use NewServeMux to prevent any security issues with the webapp
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", app.home)
-	mux.HandleFunc("/snippet", app.showSnippet)
-	mux.HandleFunc("/snippet/create", app.createSnippet)
-
-	fileServer := http.FileServer(http.Dir("./ui/static/"))
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
-
 	// Create our own server to use the errorLog defined above
 	// http.ListenAndServe() resorts to the standard logger, not a custom logger
 	srv := &http.Server {
 		Addr: *addr,
 		ErrorLog: errorLog,
-		Handler: mux,
+		Handler: app.routes(),
 	}
 
 	infoLog.Printf("Starting server on %s\n", *addr)

@@ -5,12 +5,14 @@ import (
 	"path/filepath"
 	"time"
 
+	"yotam-snippetbox/pkg/forms"
 	"yotam-snippetbox/pkg/models"
 )
 
 
 type templateData struct {
 	CurrentYear int
+	Form		*forms.Form
 	Snippet 	*models.Snippet
 	Snippets 	[]*models.Snippet
 }
